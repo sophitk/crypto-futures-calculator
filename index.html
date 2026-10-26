@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Futures Calculator</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Crypto Futures Calculator</h1>
+    <p>Estimate required margin, profit/loss, ROI, and liquidation price for long or short futures positions.</p>
+
+    <section class="card">
+      <div class="field-group">
+        <label for="positionDirection">Position direction</label>
+        <select id="positionDirection">
+          <option value="long">Long</option>
+          <option value="short">Short</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label for="entryPrice">Entry price</label>
+        <input id="entryPrice" type="number" step="0.01" min="0.01" required value="20000" />
+      </div>
+
+      <div class="field-group">
+        <label for="exitPrice">Exit price</label>
+        <input id="exitPrice" type="number" step="0.01" min="0.01" required value="23000" />
+      </div>
+
+      <div class="field-group">
+        <label for="positionSize">Position size (base-asset units)</label>
+        <input id="positionSize" type="number" step="0.0001" min="0.0001" required value="0.5" />
+      </div>
+
+      <div class="field-group">
+        <label for="leverage">Leverage</label>
+        <input id="leverage" required type="number" step="1" min="1" value="10" />
+      </div>
+
+      <div class="field-group">
+        <label for="feeRate">Fee rate (%)</label>
+        <input id="feeRate" type="number" step="0.01" min="0" value="0.075" />
+      </div>
+
+      <div class="field-group">
+        <label for="maintenanceMargin">Maintenance margin (%)</label>
+        <input id="maintenanceMargin" required max="99.99" type="number" step="0.01" min="0" required value="0.5" />
+      </div>
+
+      <button id="calculateButton">Calculate</button>
+    </section>
+
+    <section class="card results" aria-live="polite">
+      <h2>Results</h2>
+      <div class="result-item"><span>Notional value:</span> <strong id="notionalValue">-</strong></div>
+      <div class="result-item"><span>Initial margin estimate:</span> <strong id="initialMargin">-</strong></div>
+      <div class="result-item"><span>Gross Profit / Loss:</span> <strong id="pnl">-</strong></div>
+      <div class="result-item"><span>Gross ROI:</span> <strong id="roi">-</strong></div>
+      <div class="result-item"><span>Estimated fees:</span> <strong id="fees">-</strong></div>
+      <div class="result-item"><span>Liquidation estimate (isolated):</span> <strong id="liquidationPrice">-</strong></div>
+    </section>
+
+    <section class="notes">
+      <h2>How it works</h2>
+      <ul>
+        <li>Notional value = entry price × position size.</li>
+        <li>Initial margin = notional value ÷ leverage.</li>
+        <li>Profit/loss and ROI are gross, before fees. Estimated trading fees use entry and exit notionals.</li>
+        <li>Liquidation uses a simplified isolated linear model with no extra margin or maintenance deduction. It excludes funding, slippage, exchange risk tiers and close fees. Verify with your exchange.</li>
+      </ul>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
